@@ -90,6 +90,13 @@ paths:
             type: array
             items:
               $ref: "#/definitions/student"
+    get:
+      summary: Return the page searchByMark
+      description: In the page returned the user can input che criteria for the search
+      responses:
+        200:
+          description: ok
+          
           
 definitions:
   student:

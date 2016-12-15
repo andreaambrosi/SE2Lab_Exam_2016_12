@@ -272,3 +272,55 @@ app.listen(app.get('port'), function() {
 });
 
 //AGGIUNGERE QUI SOTTO NUOVE FUNZIONI
+
+//bind to file
+var bind = require('bind');
+
+/**
+ * @brief search a student by gived mark
+ * @return the list of students under the given condition
+ */
+app.post('/searchByMark', function(request, response) 
+{	
+  var headers = {};
+	headers["Content-Type"] = "text/html";
+	
+  if ( typeof request.body !== 'undefined' && request.body){
+    if(typeof request.body.search !== 'undefined' && request.body.search){
+      var input = request.body.search;
+        if (input[0]=="<" || input[0]==">"){
+            console.log(input [0]+""+ input[1]);
+            var studentList = JSON.stringify(studentManager.getList());
+            
+
+            response.writeHead(200, headers);
+            response.end(studentList);
+        }else {
+            //unaceptable input
+            response.writeHead(406, headers);
+            response.end("Errore: Input errato");
+        }
+      
+    } else {
+			response.writeHead(400, headers);
+			response.end("Errore: Input vuoto");
+	  }
+  } else {
+		//unaceptable input
+		response.writeHead(406, headers);
+		response.end("Erroe");
+	}   
+});
+
+app.get('/searchByMark', function(req, res){
+    var headers = {};
+	headers["Content-Type"] = "text/html";
+	
+	bind.toFile('./../client/searchByMark.html',
+    {},
+    function (data) {
+      res.writeHead(200, headers);
+      res.end(data);
+    }
+  );
+});
